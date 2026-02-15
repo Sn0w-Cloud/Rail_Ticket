@@ -1,0 +1,195 @@
+/* ===== 기본 리셋 ===== */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    color: #333;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* ===== Header ===== */
+/* 헤더 */
+/* 헤더 전체 */
+.header {
+    display: flex;
+    justify-content: space-between; /* 왼쪽과 오른쪽 영역 분리 */
+    align-items: center;
+    padding: 15px 30px;
+    background-color: #fff;
+    border-bottom: 1px solid #ddd;
+}
+
+/* 헤더 내부 영역 */
+.header-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+/* 로고 + 메뉴 묶음 */
+.left-area {
+    display: flex;
+    align-items: center;
+    gap: 40px; /* 로고와 메뉴 사이 간격 */
+}
+
+/* 메뉴 */
+.left-area .menu ul {
+    display: flex;
+    gap: 20px; /* 메뉴 항목 간격 */
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+/* 로그인/회원가입 메뉴 */
+.user-menu ul {
+    display: flex;
+    gap: 15px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.logo {
+    font-size: 25px;
+    font-weight: bold;
+    margin-right: 40px;
+    color: #333;
+}
+
+/* 메뉴 */
+.menu ul,
+.user-menu ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+.menu li {
+    margin-right: 25px;
+}
+
+.menu a {
+    font-size: 15px;
+    padding-bottom: 5px;
+    transition: color 0.2s, border-bottom 0.2s;
+}
+
+.menu a:hover {
+    color: #007bff;
+    border-bottom: 2px solid #007bff;
+}
+
+/* 사용자 메뉴 */
+.user-menu a {
+    font-size: 13px;
+    color: #666;
+    margin-left: 15px;
+}
+
+.user-menu a:hover {
+    color: #000;
+}
+
+
+/* ================================
+   게시판 드롭다운 메뉴 수정
+   기존 .menu, .dropdown 스타일에 충돌 없이 적용
+   ================================ */
+/* ===== 게시판 드롭다운 ===== */
+.dropdown {
+    position: relative; /* 기준 위치 */
+}
+
+/* 드롭다운 메뉴 기본 숨김 및 세로 정렬 */
+.dropdown-menu {
+    display: none !important; /* 기존 다른 CSS에 의해 보이는 걸 막음 */
+    position: absolute;      /* 상위 li 기준 위치 */
+    top: 100%;               /* 메뉴 바로 아래 */
+    left: 0;
+    min-width: 150px;
+    padding: 8px 0;
+    background-color: #fff;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    z-index: 999;
+    flex-direction: column;  /* 세로 정렬 */
+}
+
+/* 드롭다운 항목 하나씩 세로로 */
+.dropdown-menu li {
+    margin: 0;               /* 불필요한 간격 제거 */
+}
+
+.dropdown-menu a {
+    display: block;          /* 한 줄씩 나오도록 */
+    padding: 8px 15px;
+    font-size: 14px;
+    white-space: nowrap;     /* 글자가 줄 바뀌지 않게 */
+    color: #333;             /* 기본 글자색 */
+}
+
+/* 마우스 올렸을 때만 표시 */
+.dropdown:hover .dropdown-menu {
+    display: flex !important; /* flex-column 유지 */
+}
+
+/* 호버 시 배경색과 글자색 */
+.dropdown-menu a:hover {
+    background-color: #f5f5f5;
+    color: #007bff;
+}
+
+
+/* ===== Footer ===== */
+.footer {
+    background-color: #222;
+    color: #ccc;
+    margin-top: 60px;
+    font-size: 14px;
+}
+
+.footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.footer-left h3 {
+    color: #fff;
+}
+
+.footer-left p {
+    color: #aaa;
+}
+
+.footer-center ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-center a {
+    color: #ccc;
+}
+
+.footer-center a:hover {
+    color: #fff;
+}
+
+.footer-right {
+    text-align: right;
+}
+
+.footer-bottom {
+    border-top: 1px solid #333;
+    text-align: center;
+    padding: 8px 0;
+    font-size: 13px;
+    color: #777;
+}

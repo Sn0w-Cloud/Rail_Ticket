@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<!-- ===== 헤더 ===== -->
+<header th:fragment="header" class="header">
+    <div class="header-inner">
+        <!-- 로고 + 메뉴 -->
+        <div class="left-area">
+            <a href="/member/" class="logo">RailTicket</a>
+            <nav class="menu">
+                <ul>
+                    <li><a href="/ticket">승차권</a></li>
+                    <li class="dropdown">
+                        <a href="/board">게시판</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/board?type=EVENT">이벤트</a></li>
+                            <li><a href="/board?type=NOTICE">공지사항</a></li>
+                            <li><a href="/board?type=QNA">건의게시판</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="/cart">장바구니</a></li>
+                </ul>
+            </nav>
+        </div>
+
+        <!-- 로그인 영역 -->
+        <nav class="user-menu">
+            <ul>
+                <!-- 로그인 안 한 상태 -->
+                <li th:if="${loginMember == null}">
+                    <a href="/member/login">로그인</a>
+                </li>
+                <li th:if="${loginMember == null}">
+                    <a href="/member/signup">회원가입</a>
+                </li>
+
+                <!-- 로그인 한 상태 -->
+                <li th:if="${loginMember != null}">
+                    <span th:text="${loginMember.userName}"></span>님
+                </li>
+                <li th:if="${loginMember != null}">
+                    <a href="/mypage">마이페이지</a>
+                </li>
+                <li th:if="${loginMember != null}">
+                    <a href="/member/logout">로그아웃</a>
+                </li>
+            </ul>
+        </nav>
+
+    </div>
+</header>
+
+<!-- ===== 푸터 ===== -->
+<footer th:fragment="footer" class="footer">
+    <div class="footer-inner">
+        <div class="footer-left">
+            <h3>RailTicket</h3>
+            <p>편리한 철도 승차권 예매 서비스</p>
+        </div>
+        <div class="footer-center">
+            <ul>
+                <li><a href="#">회사소개</a></li>
+                <li><a href="#">이용약관</a></li>
+                <li><a href="#">개인정보처리방침</a></li>
+                <li><a href="#">공지사항</a></li>
+            </ul>
+        </div>
+        <div class="footer-right">
+            <p class="cs-title">고객센터</p>
+            <p class="cs-phone">1588-0000</p>
+            <p class="cs-time">평일 09:00 ~ 18:00</p>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        © 2026 RailTicket. All rights reserved.
+    </div>
+</footer>
+
+</body>
+</html>

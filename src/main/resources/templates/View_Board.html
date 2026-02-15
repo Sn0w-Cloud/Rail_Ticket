@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>게시글 상세</title>
+
+    <!-- ⭐ CSS 경로 수정 -->
+    <link rel="stylesheet" th:href="@{/css/Train.css}" type="text/css"/>
+    <link rel="stylesheet" th:href="@{/css/board-view.css}">
+    <link rel="stylesheet" th:href="@{/css/common.css}">
+</head>
+
+<body>
+<div th:replace="fragments/layout :: header"></div>
+
+<section>
+    <div class="board_detail_container">
+
+        <div class="board_detail_header">
+            <div class="board_detail_type"
+                 th:text="${board.boardType}">
+                게시판타입
+            </div>
+
+            <div class="board_detail_title"
+                 th:text="${board.title}">
+                게시판제목
+            </div>
+
+            <div class="board_detail_info">
+                <div class="board_detail_author"
+                     th:text="'작성자: ' + ${board.writer.userId}">
+                    작성자
+                </div>
+
+                <div class="board_detail_separator">|</div>
+
+                <div class="board_detail_date"
+                     th:text="'등록일: ' + ${#temporals.format(board.createdAt,'yyyy-MM-dd')}">
+                    등록일
+                </div>
+            </div>
+        </div>
+
+        <div class="board_detail_divider">
+            <hr class="board_detail_hr">
+        </div>
+
+        <div class="board_detail_content"
+             th:text="${board.content}">
+            게시판내용
+        </div>
+        <div th:if="${imageUrl != null}">
+            <img th:src="@{${imageUrl}}" alt="게시글 이미지" style="max-width:500px;" />
+        </div>
+
+        <div th:if="${board.imageUrl != null}" style="margin-top:10px;">
+            <a th:href="@{/board/download/{id}(id=${board.boardId})}">
+                📎 첨부파일 다운로드
+            </a>
+        </div>
+
+        <div class="board_detail_action_area">
+
+            <!-- 목록 버튼 (가운데) -->
+            <div class="board_detail_center">
+                <button class="board_detail_button list"
+                        onclick="location.href='/board'">
+                    목록
+                </button>
+            </div>
+
+            <!-- 작성자 본인만 수정/삭제 (오른쪽) -->
+            <div class="board_detail_right"
+                 th:if="${loginUser == board.writer.userId}">
+
+                <button class="board_detail_button edit"
+                        th:onclick="|location.href='/board/edit/${board.boardId}'|">
+                    수정
+                </button>
+
+                <form th:action="@{/board/delete/{id}(id=${board.boardId})}"
+                      method="post"
+                      style="display:inline;">
+                    <button type="submit"
+                            class="board_detail_button delete">
+                        삭제
+                    </button>
+                </form>
+
+            </div>
+
+        </div>
+
+
+
+    </div>
+</section>
+
+<div th:replace="fragments/layout :: footer"></div>
+</body>
+</html>

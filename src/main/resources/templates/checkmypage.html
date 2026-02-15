@@ -1,0 +1,64 @@
+<!-- ===================== -->
+<!-- 1. 비밀번호 재확인 페이지 -->
+<!-- ===================== -->
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <title>비밀번호 재확인</title>
+
+  <style>
+    body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f6f8;
+    }
+    .wrapper {
+    width: 400px;
+    margin: 120px auto;
+    background: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    }
+    p {
+    font-size: 14px;
+    color: #555;
+    text-align: center;
+    }
+    input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 12px;
+    box-sizing: border-box;
+    }
+    button {
+    width: 100%;
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #1e90ff;
+    border: none;
+    color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    }
+  </style>
+  <link rel="stylesheet" th:href="@{/css/common.css}">
+</head>
+<body>
+<div th:replace="fragments/layout :: header"></div>
+<div class="wrapper">
+  <h2>비밀번호 재확인</h2>
+  <p>회원님의 정보를 안전하게 보호하기 위해<br>비밀번호를 다시 입력해주세요.</p>
+  <form th:action="@{/mypage/password-check}" method="post">
+    <input type="password" name="password" placeholder="비밀번호 입력" />
+    <button type="submit">확인</button>
+  </form>
+
+</div>
+<div th:replace="fragments/layout :: footer"></div>
+</body>
+</html>

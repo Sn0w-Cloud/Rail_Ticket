@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>승차권 조회 | RailTicket</title>
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/ticket.css">
+</head>
+<body>
+
+<div th:replace="fragments/layout :: header"></div>
+
+<!-- ================= 검색 영역 ================= -->
+<section class="ticket-search">
+    <form th:action="@{/ticket/search}" method="get" class="search-box">
+
+        <div class="field">
+            <label>출발역</label>
+            <select name="departure" required>
+                <option value="" disabled selected>출발역 선택</option>
+                <option value="NAT010000">서울</option>
+                <option value="NAT011668">대전</option>
+                <option value="NAT013271">동대구</option>
+                <option value="NAT014445">부산</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label>도착역</label>
+            <select name="arrival" required>
+                <option value="" disabled selected>도착역 선택</option>
+                <option value="NAT010000">서울</option>
+                <option value="NAT011668">대전</option>
+                <option value="NAT013271">동대구</option>
+                <option value="NAT014445">부산</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label>출발일</label>
+            <input type="date" name="date" required th:value="${param.date}">
+        </div>
+
+        <div class="field btn-field">
+            <button type="submit">열차 조회</button>
+        </div>
+    </form>
+</section>
+
+<!-- ================= 결과 영역 ================= -->
+<section class="ticket-result">
+
+    <div class="result-title">열차 조회 결과</div>
+
+    <div class="train-card" th:each="train : ${trainList}">
+        <div class="train-info">
+            <div class="train-type" th:text="${train.trainGradeName}"></div>
+
+            <div class="time-info">
+                <div class="time" th:text="${train.depPlanTime}"></div>
+                <div class="station" th:text="${train.depPlaceName}"></div>
+            </div>
+
+            <div class="duration" th:text="'→ ' + ${train.duration} + ' →'"></div>
+
+            <div class="time-info">
+                <div class="time" th:text="${train.arrPlanTime}"></div>
+                <div class="station" th:text="${train.arrPlaceName}"></div>
+            </div>
+
+        </div>
+
+        <div class="price" th:text="${#numbers.formatInteger(train.adultCharge, 3, 'COMMA')} + '원'"></div>
+
+        <div class="reserve-btn">
+            <button class="seat-btn"
+                    th:data-train-no="${train.trainNo}"
+                    th:data-dep-place-code="${departure}"
+                    th:data-dep-place-name="${train.depPlaceName}"
+                    th:data-dep-plan-dtime="${train.depPlanTime}"
+                    th:data-arr-place-code="${arrival}"
+                    th:data-arr-place-name="${train.arrPlaceName}"
+                    th:data-arr-plan-dtime="${train.arrPlanTime}"
+                    th:data-adult-charge="${train.adultCharge}">
+                좌석 선택
+            </button>
+        </div>
+    </div>
+
+</section>
+
+<div th:replace="fragments/layout :: footer"></div>
+
+</body>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    const departure = new URLSearchParams(window.location.search).get('departure');
+    const arrival = new URLSearchParams(window.location.search).get('arrival');
+
+    if (departure) {
+        document.querySelector(`select[name="departure"] option[value="${departure}"]`).selected = true;
+    }
+    if (arrival) {
+        document.querySelector(`select[name="arrival"] option[value="${arrival}"]`).selected = true;
+    }
+});
+</script>
+<script>
+    document.querySelectorAll('.seat-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+    const selectedDate = document.querySelector('input[name="date"]').value;
+
+        const trainData = {
+            trainNo: parseInt(this.dataset.trainNo),
+            depPlaceCode: this.dataset.depPlaceCode,
+            depPlaceName: this.dataset.depPlaceName,
+            depPlanDtime: this.dataset.depPlanDtime,
+            arrPlaceCode: this.dataset.arrPlaceCode,
+            arrPlaceName: this.dataset.arrPlaceName,
+            arrPlanDtime: this.dataset.arrPlanDtime,
+            adultCharge: parseInt(this.dataset.adultCharge),
+            date: selectedDate
+        };
+
+        fetch('/ticket/save-train', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(trainData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                window.location.href = `/ticket/seat?trainId=${data.trainId}&departure=${data.departure}&arrival=${data.arrival}`;
+            } else {
+                alert('저장 실패: ' + data.message);
+            }
+        })
+        .catch(err => console.error('Error:', err));
+    });
+});
+</script>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>구매 완료 - 기차 예매 시스템</title>
+    <style>
+        :root {
+            --primary-color: #4CAF50;
+            --secondary-color: #2196F3;
+            --bg-color: #f8f9fa;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Pretendard', sans-serif;
+            background-color: var(--bg-color);
+        }
+
+        .success-container {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+
+        .icon-circle {
+            width: 80px;
+            height: 80px;
+            background-color: #e8f5e9;
+            color: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 40px;
+            margin: 0 auto 20px;
+        }
+
+        h1 {
+            color: #333;
+            margin: 10px 0;
+            font-size: 1.8rem;
+        }
+
+        p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .ticket-info {
+            background-color: #f1f8ff;
+            border-left: 4px solid var(--secondary-color);
+            padding: 15px;
+            margin: 25px 0;
+            text-align: left;
+            font-size: 0.9rem;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            flex-direction: column;
+        }
+
+        button {
+            padding: 12px;
+            font-size: 1rem;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+            font-weight: bold;
+        }
+
+        .btn-main {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        .btn-main:hover {
+            background-color: #1976D2;
+        }
+
+        .btn-list {
+            background-color: #eee;
+            color: #555;
+        }
+
+        .btn-list:hover {
+            background-color: #ddd;
+        }
+    </style>
+</head>
+<body>
+<div class="success-container">
+    <div class="icon-circle">✔</div>
+    <h1>결제 완료!</h1>
+    <p>기차 티켓 예매가 정상적으로 처리되었습니다.<br>즐거운 여행 되세요!</p>
+
+    <div class="ticket-info">
+        <strong>💡 안내사항</strong><br>
+        - 예매 내역은 '마이페이지' -> '구매 목록'에서 확인 가능합니다.<br>
+        - 출발 10분 전까지 역에 도착해 주세요.
+    </div>
+
+    <div class="btn-group">
+        <button class="btn-main" onclick="location.href='/member/'">홈으로 돌아가기</button>
+        <button class="btn-list" onclick="location.href='/mypage#orders'">내 구매 목록 보기</button>
+    </div>
+</div>
+</body>
+</html>

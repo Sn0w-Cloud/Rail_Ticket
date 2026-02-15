@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>글쓰기</title>
+  <link rel="stylesheet" th:href="@{/css/Train.css}" type="text/css"/>
+  <link rel="stylesheet" th:href="@{/css/board-write.css}">
+  <link rel="stylesheet" th:href="@{/css/common.css}">
+</head>
+<body>
+<div th:replace="fragments/layout :: header"></div>
+<div class="board_detail_button_area">
+
+</div>
+<section>
+  <div class="board_write_container">
+
+    <h2 class="board_write_title">게시글 작성</h2>
+
+    <form method="post"
+          action="/board/write"
+          enctype="multipart/form-data">
+
+      <div class="board_write_group">
+        <label>게시판 종류</label>
+        <select name="boardType" required>
+          <option value="">선택</option>
+          <option value="NOTICE" th:if="${loginMember.memberType.name() == 'admin'}">공지사항</option>
+          <option value="EVENT" th:if="${loginMember.memberType.name() == 'admin'}">이벤트</option>
+          <option value="QNA">건의 게시판</option>
+        </select>
+      </div>
+
+      <div class="board_write_group">
+        <label>제목</label>
+        <input type="text" name="title" required>
+      </div>
+
+      <div class="board_write_group">
+        <label>내용</label>
+        <textarea name="content" rows="10" required></textarea>
+      </div>
+
+      <div class="board_write_group">
+        <label>첨부 이미지</label>
+        <input type="file" name="imageFile">
+      </div>
+
+      <div class="board_write_button_area">
+        <button type="submit" class="board_write_submit">등록</button>
+        <button type="button"
+                class="board_write_cancel"
+                onclick="location.href='/board'">
+          취소
+        </button>
+      </div>
+
+    </form>
+
+  </div>
+</section>
+
+<div th:replace="fragments/layout :: footer"></div>
+</body>
+</html>

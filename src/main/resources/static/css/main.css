@@ -1,0 +1,113 @@
+/* 헤더 고정 보정 */
+.main-content {
+    margin-top: 100px;
+}
+
+/* ===== 이벤트 슬라이더 ===== */
+.event-slider {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.event-slider h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.slider-wrapper {
+    position: relative;
+    overflow: hidden;
+}
+
+.slider {
+    display: flex;
+    transition: transform 0.5s ease;
+}
+
+.slide {
+    min-width: 100%;
+    height: 350px;
+    position: relative;
+    overflow: hidden;
+}
+
+.slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 10px;
+}
+
+.slide-text {
+    position: absolute;
+    bottom: 30px;
+    left: 40px;
+    color: #fff;
+    text-align: left;
+}
+
+.slide-text h3 {
+    font-size: 26px;
+}
+
+/* 슬라이더 버튼 */
+.prev, .next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0,0,0,0.4);
+    z-index: 5;
+    color: #fff;
+    border: none;
+    font-size: 30px;
+    padding: 10px 15px;
+    cursor: pointer;
+}
+
+.prev { left: 10px; }
+.next { right: 10px; }
+
+/* ===== 검색 영역 ===== */
+.ticket-search {
+    background-color: #f8f9fa;
+    padding: 30px 0;
+}
+
+.search-box {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    gap: 20px;
+    align-items: flex-end;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.field label {
+    font-size: 13px;
+    color: #555;
+    margin-bottom: 5px;
+}
+
+.field select,
+.field input {
+    height: 45px;
+    padding: 0 10px;
+    font-size: 15px;
+}
+
+.btn-field button {
+    width: 100%;
+    height: 45px;
+    background-color: #007bff;
+    border: none;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+}

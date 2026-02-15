@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    * {
+        box-sizing: border-box;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    /* 섹션 중앙 정렬 및 간격 */
+    section > div {
+        max-width: 400px;
+        margin: 40px auto;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        background: #fafafa;
+    }
+
+    .find_account {
+        text-align: center; /* 버튼들을 중앙 정렬 */
+        margin-bottom: 20px; /* 버튼 하단 여유 공간 */
+    }
+
+    /* 버튼 스타일 */
+    .find_account button {
+        background-color: #007bff;
+        border: none;
+        color: white;
+        padding: 10px 18px;
+        margin: 0 5px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: background-color 0.3s ease;
+    }
+
+    .find_account button:hover {
+        background-color: #0056b3;
+    }
+
+    /* 입력 폼 스타일 */
+    form input[type="text"], form input[type="password"] {
+        width: 100%;
+        padding: 10px 12px;
+        margin-bottom: 15px;
+        border: 1.5px solid #ccc;
+        border-radius: 4px;
+        font-size: 1rem;
+        transition: border-color 0.3s ease;
+    }
+
+    form input[type="text"]:focus, form input[type="password"]:focus {
+        border-color: #007bff;
+        outline: none;
+    }
+
+    /* 폼 내 버튼 */
+    form button[type="submit"] {
+        width: 100%;
+        padding: 12px;
+        background-color: #28a745;
+        border: none;
+        border-radius: 4px;
+        color: white;
+        font-weight: 700;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    form button[type="submit"]:hover {
+        background-color: #1e7e34;
+    }
+
+    /* 결과 메시지 스타일 */
+    .search_Id_answers, .error {
+        margin-top: 20px;
+        padding: 12px;
+        border-radius: 6px;
+        font-size: 1.1rem;
+        text-align: center;
+    }
+
+    /* 성공 메시지 */
+    .search_Id_answers {
+        background-color: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+    }
+
+    /* 에러 메시지 */
+    .error {
+        background-color: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+    }
+
+    /* 숨김 처리된 .pw_search 초기 스타일 */
+    .pw_search {
+        display: none;
+    }
+</style>
+<script>
+    function search_id_on() {
+        document.querySelector('.id_search').style.display = 'block';
+        document.querySelector('.pw_search').style.display = 'none';
+    }
+
+    function search_pw_on() {
+        const msg = document.querySelector('.search_Id_answers');
+
+        document.querySelector('.pw_search').style.display = 'block';
+        document.querySelector('.id_search').style.display = 'none';
+
+        if(msg){
+            msg.innerHTML = '';
+            msg.style.display = 'none';
+        }
+    }
+</script>
+<style>
+    .pw_search {
+        display: none;
+    }
+</style>
+<body>
+<header></header>
+<section>
+    <div>
+        <div>
+            <div class="find_account">
+                <button type="button" onclick="search_id_on()">아이디 찾기</button>
+                <button type="button" onclick="search_pw_on()">비밀번호 찾기</button>
+            </div>
+            <div class="id_search">
+                <form action="/member/SearchID" method="post">
+                    <input type="text" name="userName" placeholder="이름"> <br>
+                    <input type="text" name="phoneNumber" placeholder="전화번호"> <br>
+                    <button type="submit">아이디 찾기</button>
+                </form>
+            </div>
+            <div class="pw_search">
+                <form action="/member/SearchPW" method="post">
+                    <input type="text" name="userId" placeholder="아이디"> <br>
+                    <input type="text" name="userName" placeholder="이름"> <br>
+                    <button type="submit">비밀번호 찾기</button>
+                </form>
+            </div>
+        </div>
+        <div class="search_Id_answers" th:if="${userId}">
+            당신의 아이디는 <strong th:text="${userId}"></strong> 입니다.
+        </div>
+        <div class="error" th:if="${error}">
+            <span th:text="${error}"></span>
+        </div>
+    </div>
+</section>
+</body>
+</html>

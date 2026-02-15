@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>RailTicket</title>
+
+    <link rel="stylesheet" th:href="@{/css/common.css}">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            let currentIndex = 0;
+            const slides = document.querySelectorAll('.slide');
+            const slider = document.querySelector('.slider');
+
+            document.querySelector('.next').addEventListener('click', () => {
+                currentIndex = (currentIndex + 1) % slides.length;
+                slider.style.transform = `translateX(-${currentIndex * 100}%)`;
+            });
+
+            document.querySelector('.prev').addEventListener('click', () => {
+                currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+                slider.style.transform = `translateX(-${currentIndex * 100}%)`;
+            });
+        });
+
+    </script>
+    <style>
+        img{
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+<div th:replace="fragments/layout :: header"></div>
+
+<main class="main-content">
+    <section class="event-slider">
+        <h2>이벤트</h2>
+        <div class="slider-wrapper">
+            <button class="prev">‹</button>
+            <div class="slider">
+                <div class="slide">
+                    <img src="/images/event1.jpg" alt="이벤트1">
+                    <div class="slide-text">
+                        <h3>설날 기차 할인 이벤트</h3>
+                        <p>최대 30% 할인</p>
+                    </div>
+                </div>
+                <div class="slide">
+                    <img src="/images/event2.jpg" alt="이벤트2">
+                    <div class="slide-text">
+                        <h3>봄 여행 이벤트</h3>
+                        <p>왕복 할인 쿠폰 증정</p>
+                    </div>
+                </div>
+            </div>
+            <button class="next">›</button>
+        </div>
+    </section>
+</main>
+
+<section class="ticket-search">
+    <form th:action="@{/ticket/search}" method="get" class="search-box">
+        <div class="field">
+            <label>출발역</label>
+            <select name="departure" required>
+                <option value="" disabled selected>출발역 선택</option>
+                <option value="NAT010000">서울</option>
+                <option value="NAT011668">대전</option>
+                <option value="NAT013271">동대구</option>
+                <option value="NAT014445">부산</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label>도착역</label>
+            <select name="arrival" required>
+                <option value="" disabled selected>도착역 선택</option>
+                <option value="NAT010000">서울</option>
+                <option value="NAT011668">대전</option>
+                <option value="NAT013271">동대구</option>
+                <option value="NAT014445">부산</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label>출발일</label>
+            <input type="date" name="date" required>
+        </div>
+
+        <div class="field btn-field">
+            <button type="submit">검색</button>
+        </div>
+    </form>
+</section>
+
+<div th:replace="fragments/layout :: footer"></div>
+</body>
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>결제 실패 - 기차 예매 시스템</title>
+    <style>
+        :root {
+            --error-color: #e53935;
+            --secondary-color: #2196F3;
+            --bg-color: #f8f9fa;
+        }
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Pretendard', sans-serif;
+            background-color: var(--bg-color);
+        }
+        .error-container {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+        .icon-circle {
+            width: 80px;
+            height: 80px;
+            background-color: #ffebee;
+            color: var(--error-color);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 40px;
+            margin: 0 auto 20px;
+            font-weight: bold;
+        }
+        h1 {
+            color: #333;
+            margin: 10px 0;
+            font-size: 1.8rem;
+        }
+        p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        .error-reason {
+            background-color: #fff8f8;
+            border: 1px dashed var(--error-color);
+            padding: 15px;
+            margin: 20px 0;
+            text-align: left;
+            font-size: 0.85rem;
+            color: #555;
+            border-radius: 8px;
+        }
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            flex-direction: column;
+        }
+        button {
+            padding: 12px;
+            font-size: 1rem;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+            font-weight: bold;
+        }
+        .btn-retry {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+        .btn-retry:hover { background-color: #1976D2; }
+
+        .btn-home {
+            background-color: #eee;
+            color: #555;
+        }
+        .btn-home:hover { background-color: #ddd; }
+    </style>
+</head>
+<body>
+<div class="error-container">
+    <div class="icon-circle">!</div>
+    <h1>결제에 실패했습니다</h1>
+    <p>요청 처리 중 문제가 발생하여<br>예매가 완료되지 않았습니다.</p>
+
+    <div class="error-reason">
+        <strong>🧐 확인해 보세요</strong><br>
+        - 결제 창을 중간에 닫으셨나요?<br>
+        - 좌석 선택 후 결제 제한 시간(10분)이 지났나요?<br>
+        - 카드 잔액 부족 혹은 한도 초과인가요?
+    </div>
+
+    <div class="btn-group">
+        <button class="btn-retry" onclick="history.back()">다시 시도하기</button>
+        <button class="btn-home" onclick="location.href='/member/'">메인 페이지로 이동</button>
+    </div>
+</div>
+</body>
+</html>

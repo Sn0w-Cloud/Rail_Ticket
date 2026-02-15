@@ -1,0 +1,181 @@
+/* ===== 기본 스타일 ===== */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 400px;
+    margin: 100px auto;
+    background: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* ===== 폼 ===== */
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 14px;
+    color: #555;
+}
+
+input, select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 5px; /* 메시지 공간 확보 */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+/* ===== 버튼 ===== */
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    border: none;
+    color: #fff;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* ===== 메시지 ===== */
+.success {
+    color: green;
+    font-size: 13px;
+    margin-bottom: 10px;
+}
+
+.error {
+    color: red;
+    font-size: 13px;
+    margin-bottom: 10px;
+}
+
+/* ===== 링크 ===== */
+.signup-link,
+.login-link {
+    text-align: center;
+    margin-top: 10px;
+    font-size: 13px;
+}
+
+.signup-link a,
+.login-link a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.signup-link a:hover,
+.login-link a:hover {
+    text-decoration: underline;
+}
+
+.links {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+    font-size: 13px;
+}
+
+.links a {
+    color: #007bff;
+    text-decoration: none;
+    padding: 10px 15px;
+    border: 1px solid #007bff;
+    border-radius: 4px;
+    transition: 0.2s;
+}
+
+.links a:hover {
+    background-color: #007bff;
+    color: #fff;
+}
+
+/* 컨테이너 전체 */
+.auth-container {
+    max-width: 500px; /* 이전 500px에서 조금 줄임 */
+    margin: 20px auto; /* 위쪽 마진도 줄여서 화면에 맞춤 */
+    padding: 15px; /* 패딩도 약간 줄임 */
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+
+/* 제목 */
+.auth-container h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 26px;
+}
+
+/* 입력칸 */
+.auth-container input,
+.auth-container select,
+.auth-container textarea {
+    width: 100%;
+    height: 40px;           /* 입력칸 높이 증가 */
+    padding: 10px;
+    margin-bottom: 13px;    /* 입력칸 간격 확보 */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;        /* 글씨도 조금 키움 */
+    box-sizing: border-box;
+}
+
+/* 버튼 */
+.auth-container button {
+    width: 100%;
+    padding: 12px;          /* 버튼도 약간 더 커지도록 */
+    font-size: 18px;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.auth-container button:hover {
+    background-color: #0056b3;
+}
+
+/* 메시지 */
+.auth-container .error,
+.auth-container .success {
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+/* 로그인 링크 */
+.auth-container .login-link {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+.auth-container .login-link a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.auth-container .login-link a:hover {
+    text-decoration: underline;
+}
+

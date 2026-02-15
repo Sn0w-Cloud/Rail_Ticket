@@ -1,0 +1,47 @@
+/* ===== 상세 하단 버튼 전체 영역 ===== */
+.board_detail_action_area {
+    position: relative;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #ddd;
+}
+
+/* ===== 목록 버튼 (가운데) ===== */
+.board_detail_center {
+    text-align: center;
+}
+
+/* ===== 수정/삭제 버튼 (우측 하단) ===== */
+.board_detail_right {
+    position: absolute;
+    right: 0;
+    top: 20px;
+    display: flex;
+    gap: 8px;
+}
+
+/* 버튼 색상 */
+.board_detail_button.edit {
+    background-color: #27ae60;
+}
+
+.board_detail_button.edit:hover {
+    background-color: #219150;
+}
+
+.board_detail_button.delete {
+    background-color: #e74c3c;
+}
+
+.board_detail_button.delete:hover {
+    background-color: #c0392b;
+}
+
+.board_detail_button.list {
+    background-color: #bdc3c7;
+    color: #333;
+}
+
+.board_detail_button.list:hover {
+    background-color: #95a5a6;
+}

@@ -1,0 +1,395 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f6f8;
+    color: #333;
+}
+
+/* Cart */
+
+.cart_container {
+    width: 90%;
+    margin: 40px auto;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+}
+
+/* ===== 타이틀 ===== */
+.cart_title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+/* ===== 전체 선택 영역 ===== */
+.cart_select_all {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+.checkbox_all {
+    width: 18px;
+    height: 18px;
+}
+
+.btn_delete_selected {
+    margin-left: auto;
+    padding: 6px 12px;
+    border: none;
+    background-color: #e74c3c;
+    color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn_delete_selected:hover {
+    background-color: #c0392b;
+}
+
+/* ===== 나의 티켓 ===== */
+.my_ticket_section {
+    margin-top: 20px;
+}
+
+.my_ticket_title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* ===== 티켓 박스 ===== */
+.ticket_box {
+    display: grid;
+    grid-template-columns: 20px 130px 1fr 100px 170px 120px;
+    align-items: center;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    margin-bottom: 10px;
+}
+
+.ticket_checkbox input {
+    width: 16px;
+    height: 16px;
+}
+
+.ticket_price {
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+.ticket_date {
+    margin-right: 10px;
+}
+
+/* ===== 티켓 버튼 ===== */
+.ticket_buttons {
+    display: flex;
+    gap: 8px;
+    justify-self: end;
+}
+
+.btn_payment {
+    padding: 6px 12px;
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn_payment:hover {
+    background-color: #2980b9;
+}
+
+.btn_cancel {
+    padding: 6px 12px;
+    background-color: #bdc3c7;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn_cancel:hover {
+    background-color: #95a5a6;
+}
+
+/* ===== 총 결제 금액 ===== */
+.total_price {
+    margin-top: 20px;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: right;
+}
+
+/* ===== 결제 요약 ===== */
+.payment_summary {
+    margin-top: 20px;
+    border-top: 2px solid #333;
+    padding-top: 15px;
+}
+
+.payment_title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.product_price,
+.discount_price,
+.final_price {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+}
+
+.discount_price .payment_value {
+    color: #e74c3c;
+}
+
+.final_price {
+    font-size: 18px;
+    font-weight: bold;
+    border-top: 1px solid #ddd;
+    margin-top: 10px;
+    padding-top: 10px;
+}
+
+/* ===== 결제 버튼 ===== */
+.payment_button_area {
+    margin-top: 20px;
+    text-align: right;
+}
+
+.btn_payment_final {
+    padding: 12px 30px;
+    font-size: 16px;
+    background-color: #27ae60;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.btn_payment_final:hover {
+    background-color: #219150;
+}
+
+/* Board */
+
+.board_container {
+    max-width: 1200px;
+    width: 95%;
+    margin: 40px auto;
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 30px;
+}
+
+.board_wrap {
+    width: 100%;
+}
+
+/* ===== 게시판 타이틀 ===== */
+.board_title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+/* ===== 상단 메뉴 ===== */
+.board_menu {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.board_menu_item {
+    flex-shrink: 0;
+}
+
+.board_menu_button {
+    padding: 8px 16px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.board_menu_button:hover {
+    background-color: #f0f0f0;
+}
+
+/* ===== 검색 영역 ===== */
+.board_search {
+    margin-left: auto;
+}
+
+.board_search_form {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.board_search_input {
+    border: none;
+    padding: 8px 10px;
+    font-size: 14px;
+    outline: none;
+    width: 180px;
+}
+
+.board_search_button {
+    border: none;
+    background-color: #3498db;
+    color: #fff;
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+.board_search_button:hover {
+    background-color: #2980b9;
+}
+
+/* ===== 구분선 ===== */
+.board_dividr {
+    margin: 15px 0;
+}
+
+.board_dividr .divider {
+    border: none;
+    border-top: 1px solid #ddd;
+}
+
+/* ===== 게시글 리스트 ===== */
+.board_list_item {
+    display: grid;
+    grid-template-columns: 120px 1fr 120px;
+    align-items: center;
+    padding: 14px 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.board_list_item:hover {
+    background-color: #fafafa;
+}
+
+/* ===== 게시글 항목 ===== */
+.board_item_type {
+    font-size: 13px;
+    color: #666;
+}
+
+.board_item_link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.board_item_title {
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.board_item_title:hover {
+    text-decoration: underline;
+}
+
+.board_item_date {
+    font-size: 13px;
+    color: #999;
+    text-align: right;
+}
+
+/* View_Board */
+.board_detail_container {
+    max-width: 900px;
+    width: 95%;
+    margin: 40px auto;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+/* ===== 게시글 헤더 ===== */
+.board_detail_header {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 15px;
+    align-items: center;
+}
+
+.board_detail_type {
+    font-size: 13px;
+    color: #888;
+}
+
+.board_detail_title {
+    font-size: 22px;
+    font-weight: bold;
+    line-height: 1.3;
+}
+
+.board_detail_info {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: #666;
+}
+
+.board_detail_separator {
+    color: #ccc;
+}
+
+/* ===== 구분선 ===== */
+.board_detail_divider {
+    margin: 20px 0;
+}
+
+.board_detail_hr {
+    border: none;
+    border-top: 1px solid #ddd;
+}
+
+/* ===== 게시글 내용 ===== */
+.board_detail_content {
+    font-size: 15px;
+    line-height: 1.6;
+    color: #444;
+    white-space: pre-line; /* 엔터 표시 유지 */
+    margin-bottom: 20px;
+}
+
+/* ===== 목록 버튼 ===== */
+.board_detail_button_area {
+    text-align: center;
+}
+
+.board_detail_button {
+    padding: 8px 16px;
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.board_detail_button:hover {
+    background-color: #2980b9;
+}

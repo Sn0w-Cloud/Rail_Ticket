@@ -1,0 +1,78 @@
+/* ===== Board Write ===== */
+
+.board_write_container {
+    max-width: 800px;
+    margin: 60px auto;
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+.board_write_title {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 30px;
+}
+
+.board_write_group {
+    margin-bottom: 20px;
+}
+
+.board_write_group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.board_write_group input[type="text"],
+.board_write_group textarea,
+.board_write_group select {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+.board_write_group textarea {
+    resize: vertical;
+}
+
+.board_write_group input[type="file"] {
+    font-size: 14px;
+}
+
+.board_write_button_area {
+    text-align: right;
+    margin-top: 30px;
+}
+
+.board_write_button_area button {
+    padding: 10px 18px;
+    font-size: 14px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+}
+
+.board_write_submit {
+    background-color: #3498db;
+    color: #fff;
+}
+
+.board_write_submit:hover {
+    background-color: #2980b9;
+}
+
+.board_write_cancel {
+    background-color: #e5e7eb;
+    color: #333;
+    margin-left: 8px;
+}
+
+.board_write_cancel:hover {
+    background-color: #d1d5db;
+}

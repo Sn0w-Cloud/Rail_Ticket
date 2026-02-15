@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>장바구니 | RailTicket</title>
+    <link rel="stylesheet" th:href="@{/css/Train.css}" type="text/css"/>
+    <link rel="stylesheet" th:href="@{/css/common.css}">
+</head>
+<body>
+
+<div th:replace="fragments/layout :: header"></div>
+
+<section>
+    <div class="cart_container">
+        <div class="cart_title">장바구니</div>
+
+        <div class="cart_content">
+
+            <!-- ================= 전체 선택 ================= -->
+            <div class="cart_select_all">
+                <div class="select_checkbox">
+                    <input type="checkbox" class="checkbox_all">
+                </div>
+                <div class="select_label">
+                    <label class="label_all">전체선택</label>
+                </div>
+                <div class="select_delete">
+                    <button class="btn_delete_selected">선택 삭제</button>
+                </div>
+            </div>
+
+            <!-- ================= 티켓 있음 ================= -->
+            <div class="my_ticket_section"
+                 th:if="${cartItems != null and !cartItems.isEmpty()}">
+                <div class="my_ticket_title">나의 티켓</div>
+
+                <div th:each="item : ${cartItems}" class="ticket_box">
+                    <div class="ticket_checkbox">
+                        <input type="checkbox" class="checkbox_ticket">
+                    </div>
+
+                    <div class="ticket_date"
+                         th:text="${item.date}">
+                    </div>
+
+                    <div class="ticket_name">
+                        <span th:text="${item.depPlaceName}"></span>
+                        →
+                        <span th:text="${item.arrPlaceName}"></span>
+                        (
+                        <span th:text="${item.depPlanTime}"></span>
+                        ~
+                        <span th:text="${item.arrPlanTime}"></span>
+                        )
+                        <br>
+                        좌석:
+                        <span th:text="${item.seatNumber}"></span>
+                    </div>
+
+                    <div class="ticket_price" th:text="${item.formattedPrice} + '원'"></div>
+
+                    <div class="ticket_buttons">
+                        <form th:action="@{/cart/payment/{cartId}(cartId=${item.cartId})}" method="get">
+                            <button type="submit" class="btn_payment">결제</button>
+                        </form>
+                        <button class="btn_cancel"
+                                th:onclick="|location.href='@{/cart/cancel/{id}(id=${item.cartId})}'|">
+                            취소
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="payment_summary">
+                <div class="payment_title">총 결제금액</div>
+                <div class="product_price">
+                    <div class="payment_label">상품금액</div>
+                    <div class="payment_value" th:text="${formattedTotalPrice} + '원'"></div>
+                </div>
+
+                <div class="discount_price">
+                    <div class="payment_label">상품할인금액</div>
+                    <div class="payment_value">0원</div>
+                </div>
+
+                <div class="final_price">
+                    <div class="payment_label">결제금액</div>
+                    <div class="payment_value" th:text="${formattedTotalPrice} + '원'"></div>
+                </div>
+
+                <div class="payment_button_area">
+                    <button class="btn_payment_final">결제</button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ================= 장바구니 비어있음 ================= -->
+        <div class="my_ticket_section" th:if="${cartItems == null or cartItems.isEmpty()}">
+            <p style="text-align:center; padding:40px;">
+                장바구니에 담긴 티켓이 없습니다.
+            </p>
+        </div>
+
+    </div>
+    </div>
+</section>
+
+<div th:replace="fragments/layout :: footer"></div>
+
+</body>
+</html>

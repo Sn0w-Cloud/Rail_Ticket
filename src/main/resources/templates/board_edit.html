@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>게시글 수정</title>
+
+  <link rel="stylesheet" th:href="@{/css/Train.css}">
+  <link rel="stylesheet" th:href="@{/css/board-write.css}">
+  <link rel="stylesheet" th:href="@{/css/common.css}">
+</head>
+
+<body>
+<div th:replace="fragments/layout :: header"></div>
+<section>
+  <div class="board_write_container">
+
+    <h2 class="board_write_title">게시글 수정</h2>
+
+    <form th:action="@{/board/edit/{id}(id=${board.boardId})}"
+          method="post"
+          enctype="multipart/form-data">
+
+      <!-- 게시판 종류 (보통 수정 불가) -->
+      <div class="board_write_group">
+        <label>게시판 종류</label>
+        <select name="boardType" required>
+
+          <option value="">선택</option>
+
+          <option value="NOTICE"
+                  th:selected="${board.boardType.name() == 'NOTICE'}">
+            공지사항
+          </option>
+
+          <option value="QNA"
+                  th:selected="${board.boardType.name() == 'QNA'}">
+            건의 게시판
+          </option>
+
+          <option value="EVENT"
+                  th:selected="${board.boardType.name() == 'EVENT'}">
+            이벤트
+          </option>
+
+        </select>
+      </div>
+
+
+      <!-- 제목 -->
+      <div class="board_write_group">
+        <label>제목</label>
+        <input type="text"
+               name="title"
+               th:value="${board.title}"
+               required>
+      </div>
+
+      <!-- 내용 -->
+      <div class="board_write_group">
+        <label>내용</label>
+        <textarea name="content"
+                  rows="10"
+                  required
+                  th:text="${board.content}"></textarea>
+      </div>
+
+      <!-- 기존 이미지 미리보기 -->
+      <div class="board_write_group"
+           th:if="${board.imageUrl != null}">
+        <label>현재 첨부 이미지</label>
+        <img th:src="${board.imageUrl}"
+             style="max-width:300px; display:block; margin-top:10px;">
+      </div>
+
+      <!-- 이미지 변경 -->
+      <div class="board_write_group">
+        <label>이미지 변경</label>
+        <input type="file" name="imageFile">
+        <p style="font-size:12px; color:#888;">
+          새 이미지를 선택하면 기존 이미지는 교체됩니다.
+        </p>
+      </div>
+
+      <!-- 버튼 -->
+      <div class="board_write_button_area">
+        <button type="submit" class="board_write_submit">
+          수정 완료
+        </button>
+
+        <button type="button"
+                class="board_write_cancel"
+                onclick="history.back()">
+          취소
+        </button>
+      </div>
+
+    </form>
+
+  </div>
+</section>
+<div th:replace="fragments/layout :: footer"></div>
+</body>
+</html>

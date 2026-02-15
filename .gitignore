@@ -1,0 +1,60 @@
+# =========================
+# IntelliJ IDEA
+# =========================
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# =========================
+# Gradle
+# =========================
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# =========================
+# Output directories
+# =========================
+out/
+bin/
+
+# =========================
+# Logs
+# =========================
+*.log
+logs/
+
+# =========================
+# OS files
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# Environment files
+# =========================
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# =========================
+# Application secrets
+# =========================
+application-secret.yml
+application-secret.properties
+
+# =========================
+# Generated files
+# =========================
+*.class
+*.jar
+*.war
+
+# =========================
+# Temp files
+# =========================
+*.tmp
+*.temp
