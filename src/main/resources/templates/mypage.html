@@ -42,7 +42,6 @@
                            th:value="${loginUser.userAddress}"/>
                 </div>
 
-                <!-- 🔥 버튼을 같은 부모로 -->
                 <div class="button-group">
                     <button type="submit" class="btn btn-primary">
                         정보 저장
@@ -75,7 +74,7 @@
                     <td th:text="${purchase.listName}"></td>
                     <td th:text="${#temporals.format(purchase.purchaseDate, 'yyyy-MM-dd')}"></td>
                     <td>
-                        <span th:if="${purchase.status.name() == 'CANCELED'}" style="color: red;">취소완료</span>
+                        <span th:if="${purchase.status.name() == 'CANCELED'}">취소완료</span>
                         <div th:if="${purchase.status.name() == 'AVAILABLE'}">
                             <span th:if="${#temporals.createToday().isBefore(purchase.trainInfo.date)}">취소가능</span>
                         </div>
@@ -84,13 +83,13 @@
                     <td>
                         <button th:if="${purchase.status.name() == 'AVAILABLE' and #temporals.createToday().isBefore(purchase.trainInfo.date)}"
                                 th:onclick="|location.href='/purchase/cancel?id=${purchase.listId}'|"
-                                class="btn-cancel">
-                            구매취소
-                        </button>
-                        <span th:if="${#temporals.createToday().isEqual(purchase.trainInfo.date)}"
-                              style="color: gray;">취소불가(당일)</span>
-                        <span th:if="${#temporals.createToday().isAfter(purchase.trainInfo.date)}"
-                              style="color: lightgray;">취소불가(기간만료)</span>
+                                class="btn-cancel">구매취소</button>
+
+                        <span th:if="${purchase.status.name() == 'COMPLETED'}"
+                              style="color: #1976d2;">구매확정</span>
+
+                        <span th:if="${purchase.status.name() == 'CANCELED'}"
+                              style="color: red;">취소완료</span>
                     </td>
                 </tr>
                 <tr th:if="${#lists.isEmpty(purchases)}">
@@ -121,15 +120,13 @@
         if (element) {
             element.classList.add('active');
         } else {
-            // 사이드바 메뉴 중 해당 id를 가진 li를 찾아 active 추가
             const menuMap = {'profile': 0, 'orders': 1, 'withdraw': 2};
             document.querySelectorAll('.sidebar li')[menuMap[id]].classList.add('active');
         }
     }
 
-    // 페이지 로딩 시 실행
     window.onload = function () {
-        const hash = window.location.hash.substring(1); // #orders 에서 'orders'만 추출
+        const hash = window.location.hash.substring(1);
         if (hash === 'orders') {
             showSection('orders');
         } else if (hash === 'withdraw') {
@@ -141,7 +138,6 @@
 
     function withdraw() {
         if (confirm("정말 탈퇴하시겠습니까?")) {
-            // 탈퇴 요청 보내기
             fetch('/mypage/withdraw', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'},
@@ -150,7 +146,7 @@
                 .then(response => {
                     if (response.ok) {
                         alert("탈퇴가 완료되었습니다.");
-                        window.location.href = "/member/logout"; // 로그아웃 처리
+                        window.location.href = "/member/logout";
                     } else {
                         alert("탈퇴 처리 중 오류가 발생했습니다.");
                     }

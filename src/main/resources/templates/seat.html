@@ -3,334 +3,291 @@
 <head>
     <meta charset="UTF-8">
     <title>KTX 좌석 선택</title>
-    <style>
-        body {
-            background: #eef2f6;
-            font-family: Arial, sans-serif;
-            text-align: center;
-            padding: 40px;
-        }
 
-        h1 {
-            margin-bottom: 20px;
-        }
-
-        select {
-            padding: 8px 20px;
-            border-radius: 20px;
-            border: 1px solid #ccc;
-            margin-bottom: 20px;
-            font-size: 14px;
-        }
-
-        .car {
-            width: 900px;
-            margin: 0 auto 30px;
-            background: white;
-            border-radius: 50px;
-            border: 4px solid #1976d2;
-            padding: 30px 40px;
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
-            display: none;
-        }
-
-        .car.active {
-            display: block;
-        }
-
-        .windows {
-            display: flex;
-            justify-content: space-between;
-            padding: 0 140px;
-            margin: 12px 0;
-        }
-
-        .window {
-            width: 90px;
-            height: 28px;
-            background: linear-gradient(#bbdefb, #e3f2fd);
-            border-radius: 14px;
-            border: 2px solid #90caf9;
-        }
-
-        .seat-row {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin: 12px 0;
-        }
-
-        .seat {
-            width: 72px;
-            height: 48px;
-            background: #e3f2fd;
-            border-radius: 10px;
-            border: 2px solid #1976d2;
-            cursor: pointer;
-            font-size: 13px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: 0.2s;
-        }
-
-        .seat:hover {
-            transform: translateY(-2px);
-        }
-
-        .seat.selected {
-            background: #1976d2 !important;
-            color: #fff !important;
-            border-color: #0d47a1 !important;
-        }
-
-        .seat.disabled {
-            background: #e0e0e0;
-            border-color: #bdbdbd;
-            color: #9e9e9e;
-            cursor: not-allowed;
-        }
-
-        .direction {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 30px;
-            margin: 12px 0;
-            font-weight: bold;
-            color: #1976d2;
-        }
-
-        .arrows {
-            letter-spacing: 14px;
-            color: #90a4ae;
-            font-size: 18px;
-        }
-
-        .action-buttons {
-            margin-top: 30px;
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-        }
-
-        .buy-btn, .cart-btn {
-            padding: 12px 36px;
-            font-size: 15px;
-            border-radius: 30px;
-            border: none;
-            color: white;
-            cursor: pointer;
-        }
-
-        .buy-btn {
-            background: #ff5a5f;
-        }
-
-        .buy-btn:hover {
-            background: #e0484d;
-        }
-
-        .cart-btn {
-            background: #1976d2;
-        }
-
-        .cart-btn:hover {
-            background: #125aa0;
-        }
-
-        .seat.reserved {
-            background: #ffc107; /* 임시 점유: 노란색 */
-            color: #fff;
-            cursor: not-allowed;
-            border-color: #ff9800;
-        }
-
-        .seat.booked {
-            background: #e0e0e0; /* 구매 완료: 회색 */
-            color: #9e9e9e;
-            cursor: not-allowed;
-            border-color: #bdbdbd;
-        }
-    </style>
+    <link rel="stylesheet" th:href="@{/css/Train.css}" type="text/css"/>
 </head>
 
 <body>
-<h1>KTX 좌석 선택</h1>
 
-<select id="carSelect">
-    <option value="car1">1호차</option>
-    <option value="car2">2호차</option>
-</select>
+<div class="seat-select-page">
 
-<!-- ================= 호차 반복 ================= -->
-<div class="car" th:each="carNum : ${cars}" th:id="'car' + ${carNum}"
-     th:class="${carNum == 1} ? 'car active' : 'car'">
+    <h1>KTX 좌석 선택</h1>
 
-    <!-- 상단 창문 -->
-    <div class="windows">
-        <div class="window"></div>
-        <div class="window"></div>
-        <div class="window"></div>
-    </div>
+    <select id="carSelect">
+        <option value="car1">1호차</option>
+        <option value="car2">2호차</option>
+    </select>
 
-    <!-- 상단 좌석 (A~E) -->
-    <div class="seat-row">
-        <div class="upper"
-             th:each="seat : ${seatMap['car' + carNum + '_upper']}">
-            <div class="seat"
-                 th:text="${seat['seatNumber']}"
-                 th:attr="data-seat-id=${seat['seatId']}"
-                 th:classappend="${seat['status'] == 'RESERVED'} ? ' reserved' : (${seat['status'] == 'BOOKED'} ? ' booked' : '')">
-            </div>
+
+    <!-- 호차 반복 -->
+    <div class="car"
+         th:each="carNum : ${cars}"
+         th:id="'car' + ${carNum}"
+         th:classappend="${carNum == 1} ? ' active' : ''">
+
+        <!-- 창문 -->
+        <div class="windows">
+            <div class="window"></div>
+            <div class="window"></div>
+            <div class="window"></div>
         </div>
-    </div>
 
-    <!-- 방향 표시 -->
-    <div class="direction">
-        <span th:text="${departure}"></span>
-        <span class="arrows">▶ ▶ ▶ ▶ ▶</span>
-        <span th:text="${arrival}"></span>
-    </div>
 
-    <!-- 하단 좌석 (F~J) -->
-    <div class="seat-row">
-        <div class="lower"
-             th:each="seat : ${seatMap['car' + carNum + '_lower']}">
-            <div class="seat"
-                 th:text="${seat['seatNumber']}"
-                 th:attr="data-seat-id=${seat['seatId']}"
-                 th:classappend="${seat['status'] == 'RESERVED'} ? ' reserved' : (${seat['status'] == 'BOOKED'} ? ' booked' : '')">
+        <!-- 상단 좌석 -->
+        <div class="seat-row">
+
+            <div th:each="seat : ${seatMap['car' + carNum + '_upper']}">
+
+                <div class="seat"
+
+                     th:text="${seat['seatNumber']}"
+
+                     th:attr="data-seat-id=${seat['seatId']}"
+
+                     th:classappend="
+                        ${seat['status']=='RESERVED'} ? ' reserved' :
+                        (${seat['status']=='BOOKED'} ? ' booked' : '')
+                     ">
+
+                </div>
+
             </div>
+
         </div>
+
+
+        <!-- 방향 -->
+        <div class="direction">
+
+            <span th:text="${departure}"></span>
+
+            <span class="arrows">▶ ▶ ▶ ▶ ▶</span>
+
+            <span th:text="${arrival}"></span>
+
+        </div>
+
+
+        <!-- 하단 좌석 -->
+        <div class="seat-row">
+
+            <div th:each="seat : ${seatMap['car' + carNum + '_lower']}">
+
+                <div class="seat"
+
+                     th:text="${seat['seatNumber']}"
+
+                     th:attr="data-seat-id=${seat['seatId']}"
+
+                     th:classappend="
+                        ${seat['status']=='RESERVED'} ? ' reserved' :
+                        (${seat['status']=='BOOKED'} ? ' booked' : '')
+                     ">
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- 창문 -->
+        <div class="windows">
+            <div class="window"></div>
+            <div class="window"></div>
+            <div class="window"></div>
+        </div>
+
     </div>
-    <!-- 하단 창문 -->
-    <div class="windows">
-        <div class="window"></div>
-        <div class="window"></div>
-        <div class="window"></div>
+
+
+    <!-- 버튼 -->
+    <div class="action-buttons">
+
+        <button type="button"
+                class="cart-btn"
+                onclick="addToCart()">
+            장바구니
+        </button>
+
+        <button type="button"
+                class="buy-btn"
+                id="buyBtn">
+            예매하기
+        </button>
+
     </div>
+
 </div>
-<!-- ================= 버튼 ================= -->
-<div class="action-buttons">
-    <button type="button" class="cart-btn" onclick="addToCart()">장바구니</button>
-    <button type="button" class="buy-btn" id="buyBtn">예매하기</button>
-</div>
+
 
 <script th:inline="javascript">
-    const isLoggedIn = [[${loginUser != null
-    }]]
-    ;
+
+    const isLoggedIn = [[${loginUser != null}]];
+
 </script>
 
+
 <script>
-    // 선택된 좌석 번호 배열
+
+    /* 선택 좌석 */
     let selectedSeatIds = [];
 
-    // 좌석 클릭 이벤트
-    document.addEventListener('click', function (e) {
 
-        // seat이 아니면 무시
-        if (!e.target.classList.contains('seat')) return;
+    /* 좌석 클릭 */
+    document.addEventListener("click", function(e){
+
+        if(!e.target.classList.contains("seat")) return;
 
         const seat = e.target;
 
-        // 예약/구매 좌석 클릭 방지
-        if (seat.classList.contains('reserved') || seat.classList.contains('booked')) return;
+        if(seat.classList.contains("reserved")
+            || seat.classList.contains("booked")) return;
 
         const seatId = seat.dataset.seatId;
 
-        // 같은 좌석 다시 클릭 → 해제
-        if (selectedSeatIds[0] === seatId) {
+        if(selectedSeatIds[0] === seatId){
+
             selectedSeatIds = [];
-            seat.classList.remove('selected');
+
+            seat.classList.remove("selected");
+
             return;
+
         }
 
-        // 기존 선택 제거
-        document.querySelectorAll('.seat.selected')
-            .forEach(s => s.classList.remove('selected'));
+        document.querySelectorAll(".seat.selected")
+            .forEach(s=>s.classList.remove("selected"));
 
-        // 새 좌석 선택
-        selectedSeatIds = [seatId];
-        seat.classList.add('selected');
+        selectedSeatIds=[seatId];
+
+        seat.classList.add("selected");
+
     });
 
-    // 장바구니 담기
-    function addToCart() {
-        if (!isLoggedIn) {
-            location.href = "/member/login";
+
+    /* 장바구니 */
+    function addToCart(){
+
+        if(!isLoggedIn){
+
+            location.href="/member/login";
+
             return;
+
         }
-        if (selectedSeatIds.length === 0) {
+
+        if(selectedSeatIds.length===0){
+
             alert("좌석을 선택하세요");
+
             return;
+
         }
 
-        fetch("/ticket/cart", {
-            method: "POST",
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({seatId: Number(selectedSeatIds[0])})
+        fetch("/ticket/cart",{
+
+            method:"POST",
+
+            headers:{"Content-Type":"application/json"},
+
+            body:JSON.stringify({
+
+                seatId:Number(selectedSeatIds[0])
+
+            })
 
         })
-            .then(res => {
-                if (!res.ok) throw new Error();
-                alert("장바구니에 담겼습니다");
-                location.href = "/cart";
+
+            .then(res=>{
+
+                if(!res.ok) throw new Error();
+
+                alert("장바구니 담기 완료");
+
+                location.href="/cart";
+
             })
-            .catch(() => alert("좌석 담기 실패"));
+
+            .catch(()=>alert("좌석 담기 실패"));
+
     }
-//구매 하기
-    document.getElementById("buyBtn").addEventListener("click", function () {
-        if (!isLoggedIn) {
-            location.href = "/member/login";
-            return;
-        }
-        if (selectedSeatIds.length === 0) {
-            alert("좌석을 선택하세요.");
-            return;
-        }
 
-        // 서버에 '바로 구매' 요청
-        fetch("/ticket/direct-purchase", {
-            method: "POST",
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({ seatId: Number(selectedSeatIds[0]) }) // [0] 명시
-        })
-            .then(res => {
-                if (!res.ok) {
-                    // 서버에서 보낸 에러 메시지가 있다면 출력 (예: 이미 선택된 좌석)
-                    return res.text().then(text => { throw new Error(text) });
-                }
-                return res.json();
+
+    /* 구매 */
+    document.getElementById("buyBtn")
+        .addEventListener("click",function(){
+
+            if(!isLoggedIn){
+
+                location.href="/member/login";
+
+                return;
+
+            }
+
+            if(selectedSeatIds.length===0){
+
+                alert("좌석 선택하세요");
+
+                return;
+
+            }
+
+            fetch("/ticket/direct-purchase",{
+
+                method:"POST",
+
+                headers:{"Content-Type":"application/json"},
+
+                body:JSON.stringify({
+
+                    seatId:Number(selectedSeatIds[0])
+
+                })
+
             })
-            .then(data => {
-                // 성공 시 결제 페이지로 이동
-                if(data.cartId) {
-                    location.href = "/cart/payment/" + data.cartId;
-                } else {
-                    alert("결제 정보를 생성할 수 없습니다.");
-                }
-            })
-            .catch((err) => {
-                console.error("상세 에러 내용:", err);
-                alert("오류 발생: " + err.message);
-            });
-    });
-    // 차량 선택 변경
-    const carSelect = document.getElementById('carSelect');
-    const cars = document.querySelectorAll('.car');
 
-    carSelect.addEventListener('change', () => {
-        // 모든 차량 비활성화
-        cars.forEach(c => c.classList.remove('active'));
-        // 선택한 차량만 활성화
-        document.getElementById(carSelect.value).classList.add('active');
+                .then(res=>{
 
-        // 선택 좌석 초기화
-        selectedSeatIds = [];
-        document.querySelectorAll('.seat').forEach(s => s.classList.remove('selected'));
+                    if(!res.ok)
+
+                        return res.text().then(t=>{throw new Error(t)});
+
+                    return res.json();
+
+                })
+
+                .then(data=>{
+
+                    location.href="/cart/payment/"+data.cartId;
+
+                })
+
+                .catch(err=>alert(err.message));
+
+        });
+
+
+    /* 호차 변경 */
+    const carSelect=document.getElementById("carSelect");
+
+    const cars=document.querySelectorAll(".car");
+
+    carSelect.addEventListener("change",()=>{
+
+        cars.forEach(c=>c.classList.remove("active"));
+
+        document.getElementById(carSelect.value)
+            .classList.add("active");
+
+        selectedSeatIds=[];
+
+        document.querySelectorAll(".seat")
+            .forEach(s=>s.classList.remove("selected"));
+
     });
+
 </script>
 
 </body>

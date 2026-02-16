@@ -42,7 +42,6 @@ public class TicketController {
         this.memberService = memberService;
     }
 
-    // 검색 폼에서 GET 요청 처리
     @GetMapping("/search")
     public String getTrainInfo(Model model,
                                @RequestParam String departure,
@@ -60,11 +59,10 @@ public class TicketController {
 
     @GetMapping({"", "/"})
     public String ticketPage(HttpSession session, Model model) {
-        // 로그인 상태 확인
         Object loginUser = session.getAttribute("loginUser");
         model.addAttribute("loginUser", loginUser);
 
-        return "ticket"; // templates/ticket.html
+        return "ticket";
     }
 
     @PostMapping("/save-train")
@@ -96,7 +94,6 @@ public class TicketController {
     ) {
         List<Seat> seatList = seatService.getSeatsByTrainId(trainId);
 
-        // 차량별 좌석 분류 (carNum이 seatNumber 첫 글자 숫자라고 가정)
         Map<Integer, List<Seat>> carSeats = seatList.stream()
                 .collect(Collectors.groupingBy(s -> Integer.parseInt(s.getSeatNumber().substring(0, 1))));
 
@@ -106,7 +103,6 @@ public class TicketController {
             int carNum = entry.getKey();
             List<Seat> seats = entry.getValue();
 
-            // 상단 좌석 A~E
             List<Map<String, String>> upperSeats = seats.stream()
                     .filter(s -> s.getSeatNumber().matches("\\d[A-E]"))
                     .sorted(Comparator.comparing(Seat::getSeatNumber))
@@ -117,7 +113,6 @@ public class TicketController {
                     ))
                     .toList();
 
-            // 하단 좌석 F~J
             List<Map<String, String>> lowerSeats = seats.stream()
                     .filter(s -> s.getSeatNumber().matches("\\d[F-J]"))
                     .sorted(Comparator.comparing(Seat::getSeatNumber))
@@ -166,14 +161,12 @@ public class TicketController {
     @ResponseBody
     public ResponseEntity<?> directPurchase(@RequestBody Map<String, Integer> request, HttpSession session) {
 
-        // 세션에서 꺼낸 값이 String일 경우를 대비해 Object로 먼저 받습니다.
         Object userObj = session.getAttribute("loginUser");
 
-        // 만약 세션에 유저 객체가 아닌 유저 ID(String)만 들어있다면, DB에서 유저를 조회해야 합니다.
         Member_info loginUser;
         if (userObj instanceof String) {
             String userId = (String) userObj;
-            loginUser = member_infoRepository.findById(userId) // 또는 findByName 등 프로젝트에 맞는 메서드
+            loginUser = member_infoRepository.findById(userId)
                     .orElseThrow(() -> new IllegalStateException("사용자를 찾을 수 없습니다."));
         } else {
             loginUser = (Member_info) userObj;

@@ -2,6 +2,7 @@ package org.zerock.project.Controller;
 
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,15 +22,19 @@ import java.util.Map;
 @RequestMapping("/cart")
 
 public class CartController {
+    @Value("${naver.client-id}")
+    private String clientId;
+
+    @Value("${naver.pay-chain-id}")
+    private String chainId;
+
     @Autowired
     private final CartService cartService;
     private final MemberService  memberService;
-    private final PurchaseFacadeService purchaseFacadeService;
 
-    public CartController(CartService cartService, MemberService memberService, PurchaseFacadeService purchaseFacadeService) {
+    public CartController(CartService cartService, MemberService memberService) {
         this.cartService = cartService;
         this.memberService = memberService;
-        this.purchaseFacadeService = purchaseFacadeService;
     }
 
     @GetMapping("")
@@ -41,10 +46,8 @@ public class CartController {
         String userId = loginUser.toString();
         Member_info member = memberService.findByUserId(userId);
 
-        // 1. 장바구니 목록 조회
         List<Cart_info> cartList = cartService.getCartByMember(member);
 
-        // 2. 뷰용 DTO 또는 Map 생성
         List<Map<String, Object>> cartItems = cartList.stream().map(cart -> {
             Map<String, Object> map = new HashMap<>();
             map.put("cartId", cart.getCartId());
@@ -62,7 +65,6 @@ public class CartController {
 
         model.addAttribute("cartItems", cartItems);
 
-        // 총 결제금액 계산
         int totalPrice = cartItems.stream()
                 .mapToInt(item -> (int) item.get("price"))
                 .sum();
@@ -84,8 +86,10 @@ public class CartController {
         Cart_info cart = cartService.getCartById(cartId)
                 .orElseThrow(() -> new IllegalArgumentException("장바구니 정보를 찾을 수 없습니다."));
 
+        model.addAttribute("clientId", clientId);
+        model.addAttribute("chainId", chainId);
         model.addAttribute("cart", cart);
-        return "payment_method"; // 템플릿 이름이 정확한지 확인 (payment_method.html)
+        return "payment_method";
     }
 
     @GetMapping("/cancel/{cartId}")

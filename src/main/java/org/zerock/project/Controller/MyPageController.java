@@ -19,7 +19,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MyPageController {
 
-    private final Member_infoRepository memberInfoRepository; // ⭐ 이게 핵심
+    private final Member_infoRepository memberInfoRepository;
     private final PurchaseService purchaseService;
     private final MemberService memberService;
 
@@ -41,16 +41,6 @@ public class MyPageController {
         model.addAttribute("purchases", purchases);
 
         return "mypage";
-    }
-
-    @GetMapping("/password-check")
-    public String passwordCheck(HttpSession session) {
-
-        if (session.getAttribute("loginUser") == null) {
-            return "redirect:/member/login";
-        }
-
-        return "checkmypage";
     }
 
     @PostMapping("/update")
@@ -99,6 +89,5 @@ public class MyPageController {
             return "FAIL";
         }
     }
-
 
 }

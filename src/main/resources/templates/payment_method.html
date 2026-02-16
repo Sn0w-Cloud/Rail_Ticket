@@ -3,287 +3,153 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>기차표 결제 - Korail/SRT 스타일</title>
+
+    <title>기차표 결제</title>
+
+    <link rel="stylesheet" th:href="@{/css/Train.css}" type="text/css"/>
+
     <script src="https://nsp.pay.naver.com/sdk/js/naverpay.min.js"></script>
-    <style>
-        :root {
-            --primary-color: #333;
-            --train-blue: #0054a6;
-            --naver-color: #03C75A;
-            --border-color: #e0e0e0;
-            --bg-gray: #f4f6f9;
-        }
-
-        body {
-            font-family: 'Pretendard', -apple-system, sans-serif;
-            background-color: var(--bg-gray);
-            margin: 0;
-            padding: 40px 20px;
-        }
-
-        /* 전체 컨테이너: 좌우 배치 */
-        .checkout-container {
-            display: flex;
-            gap: 30px;
-            width: 100%;
-            max-width: 1100px;
-            margin: 0 auto;
-            align-items: flex-start;
-        }
-
-        /* [왼쪽] 티켓 정보 섹션 */
-        .ticket-info {
-            flex: 1.2;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-            overflow: hidden;
-        }
-
-        .ticket-header {
-            background-color: var(--train-blue);
-            color: white;
-            padding: 25px;
-            font-size: 1.2rem;
-            font-weight: 700;
-            text-align: center;
-        }
-
-        .ticket-body {
-            padding: 40px;
-        }
-
-        /* 여정 디자인 (출발-도착) */
-        .journey-box {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: #fdfdfd;
-            border: 1px solid #f0f0f0;
-            padding: 30px;
-            border-radius: 15px;
-            margin-bottom: 30px;
-        }
-
-        .station {
-            text-align: center;
-            flex: 1;
-        }
-
-        .station .city {
-            font-size: 1.8rem;
-            font-weight: 800;
-            display: block;
-            color: #111;
-        }
-
-        .station .time {
-            font-size: 1.1rem;
-            color: #555;
-            margin-top: 8px;
-            font-weight: 500;
-        }
-
-        .arrow {
-            flex: 0.5;
-            height: 2px;
-            background: #ddd;
-            position: relative;
-            margin: 0 20px;
-        }
-
-        .arrow::after {
-            content: "";
-            position: absolute;
-            right: -2px;
-            top: -4px;
-            border-top: 5px solid transparent;
-            border-bottom: 5px solid transparent;
-            border-left: 8px solid #ddd;
-        }
-
-        .train-detail-list {
-            border-top: 1px solid #eee;
-            padding-top: 20px;
-        }
-
-        .train-detail-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 15px 0;
-            font-size: 1rem;
-            border-bottom: 1px solid #f9f9f9;
-        }
-
-        .train-detail-item span:first-child {
-            color: #888;
-        }
-
-        .train-detail-item span:last-child {
-            font-weight: 600;
-            color: #333;
-        }
-
-        /* [오른쪽] 결제 섹션 (Sticky 적용) */
-        .payment-wrapper {
-            flex: 0.8;
-            background: white;
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-            position: sticky;
-            top: 40px; /* 스크롤 시 상단 여백 */
-        }
-
-        h2 {
-            font-size: 1.3rem;
-            margin-bottom: 25px;
-            font-weight: 700;
-        }
-
-        /* 결제 수단 라디오 버튼 커스텀 */
-        .payment-list {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .payment-item input[type="radio"] {
-            display: none;
-        }
-
-        .payment-label {
-            display: flex;
-            align-items: center;
-            padding: 18px;
-            border: 2px solid #eee;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .payment-item input[type="radio"]:checked + .payment-label {
-            border-color: var(--train-blue);
-            background-color: #f0f6ff;
-        }
-
-        .method-icon {
-            width: 30px;
-            font-size: 1.2rem;
-            margin-right: 15px;
-        }
-
-        .npay-text {
-            color: var(--naver-color);
-            font-weight: 900;
-        }
-
-        /* 금액 정보 섹션 */
-        .total-price-box {
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 2px solid #f4f4f4;
-        }
-
-        .pay-button {
-            width: 100%;
-            padding: 20px;
-            border: none;
-            border-radius: 12px;
-            background-color: var(--train-blue);
-            color: white;
-            font-size: 1.2rem;
-            font-weight: 700;
-            cursor: pointer;
-            margin-top: 20px;
-            transition: opacity 0.2s;
-        }
-
-        .pay-button:hover {
-            opacity: 0.9;
-        }
-    </style>
 </head>
 <body>
 
-<div class="checkout-container" th:if="${cart != null}">
-    <!-- 왼쪽: 기차 정보 -->
-    <div class="ticket-info">
-        <div class="ticket-header">
-            <span>KTX</span>
-            <span th:text="'00' + ${cart.seat.train.trainNo}"></span>
-            (<span th:text="${cart.seat.train.depPlaceName}"></span> →
-            <span th:text="${cart.seat.train.arrPlaceName}"></span>)
-        </div>
-        <div class="ticket-body">
-            <div class="journey-box">
-                <div class="station">
-                    <span class="city" th:text="${cart.seat.train.depPlaceName}"></span>
-                    <span class="time" th:text="${cart.seat.train.depPlanDtime}"></span>
-                </div>
-                <div class="arrow"></div>
-                <div class="station">
-                    <span class="city" th:text="${cart.seat.train.arrPlaceName}"></span>
-                    <span class="time" th:text="${cart.seat.train.arrPlanDtime}"></span>
-                </div>
+<div class="checkout-page">
+
+    <div class="checkout-container" th:if="${cart != null}">
+
+        <div class="ticket-info">
+
+            <div class="ticket-header">
+                KTX
+                <span th:text="${#numbers.formatInteger(cart.seat.train.trainNo, 3)}"></span>
+                (
+                <span th:text="${cart.seat.train.depPlaceName}"></span>
+                →
+                <span th:text="${cart.seat.train.arrPlaceName}"></span>
+                )
             </div>
 
-            <div class="train-detail-list">
-                <div class="train-detail-item">
-                    <span>승차일자</span>
-                    <span th:text="${cart.seat.train.date}"></span>
+            <div class="ticket-body">
+
+                <div class="journey-box">
+
+                    <div class="station">
+                        <span class="city"
+                              th:text="${cart.seat.train.depPlaceName}"></span>
+
+                        <span class="time"
+                              th:text="${cart.seat.train.depPlanDtime}"></span>
+                    </div>
+
+                    <div class="arrow"></div>
+
+                    <div class="station">
+                        <span class="city"
+                              th:text="${cart.seat.train.arrPlaceName}"></span>
+
+                        <span class="time"
+                              th:text="${cart.seat.train.arrPlanDtime}"></span>
+                    </div>
+
                 </div>
-                <div class="train-detail-item">
-                    <span>열차 번호</span>
-                    <span th:text="'KTX 00' + ${cart.seat.train.trainNo}"></span>
+
+                <div class="train-detail-list">
+
+                    <div class="train-detail-item">
+                        <span>승차일자</span>
+                        <span th:text="${cart.seat.train.date}"></span>
+                    </div>
+
+                    <div class="train-detail-item">
+                        <span>열차 번호</span>
+                        <span th:text="'KTX ' + ${#numbers.formatInteger(cart.seat.train.trainNo, 3)}"></span>
+                    </div>
+
+                    <div class="train-detail-item">
+                        <span>좌석</span>
+                        <span th:text="${cart.seat.seatNumber}"></span>
+                    </div>
+
                 </div>
-                <div class="train-detail-item">
-                    <span>좌석 정보</span>
-                    <span th:text="${cart.seat.seatNumber}"></span>
-                </div>
+
             </div>
+
         </div>
+
+        <div class="payment-wrapper">
+
+            <h2>결제 수단</h2>
+
+            <form id="paymentForm">
+
+                <div class="payment-list">
+
+                    <div class="payment-item">
+
+                        <input type="radio"
+                               name="paymentMethod"
+                               id="naverpay"
+                               value="naverpay"
+                               checked>
+
+                        <label for="naverpay" class="payment-label">
+
+                            <div class="method-icon naver">N</div>
+
+                            네이버페이
+
+                        </label>
+
+                    </div>
+
+                    <div class="payment-item">
+
+                        <input type="radio"
+                               name="paymentMethod"
+                               id="kakaopay"
+                               value="kakaopay">
+
+                        <label for="kakaopay" class="payment-label">
+
+                            <div class="method-icon kakao">K</div>
+
+                            카카오페이
+
+                        </label>
+
+                    </div>
+
+                </div>
+
+
+                <div class="total-price-box">
+
+                    <div class="price-row">
+
+                        <span>결제 금액</span>
+
+                        <span class="price"
+                              th:text="${#numbers.formatInteger(cart.totalPrice, 3, 'COMMA')} + '원'">
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <button type="submit" class="pay-button">
+                    결제하기
+                </button>
+
+            </form>
+
+        </div>
+
     </div>
 
-    <!-- 오른쪽: 결제 -->
-    <div class="payment-wrapper">
-        <h2>결제 수단</h2>
-        <form id="paymentForm">
-            <input type="hidden" id="merchantPayKey" value="${merchantPayKey}">
-            <div class="payment-list">
-                <div class="payment-item">
-                    <input type="radio" name="paymentMethod" id="naverpay" value="naverpay" checked>
-                    <label for="naverpay" class="payment-label">
-                        <div class="method-icon"><span class="npay-text">N</span></div>
-                        <span class="method-name">네이버페이</span>
-                    </label>
-                </div>
-                <div class="payment-item">
-                    <input type="radio" name="paymentMethod" id="kakaopay" value="kakaopay">
-                    <label for="kakaopay" class="payment-label">
-                        <div class="method-icon"><span class="kpay-text">K</span></div>
-                        <span class="method-name">카카오페이</span>
-                    </label>
-                </div>
-            </div>
-
-            <div class="total-price-box">
-                <div style="display:flex; justify-content:space-between; margin-bottom:10px; color:#666;">
-                    <span>운임 금액</span>
-                    <span th:text="${#numbers.formatInteger(cart.totalPrice, 3, 'COMMA') + '원'}"></span>
-                </div>
-                <div style="display:flex; justify-content:space-between; font-weight:700; font-size:1.3rem;">
-                    <span>결제 금액</span>
-                    <span style="color: var(--train-blue);"
-                          th:text="${#numbers.formatInteger(cart.totalPrice, 3, 'COMMA') + '원'}"></span>
-                </div>
-            </div>
-
-            <button type="submit" class="pay-button">승차권 결제하기</button>
-        </form>
-    </div>
 </div>
+
+
 <script th:inline="javascript">
+
     const cartId = [[${cart.cartId}]];
 
     const productName =
@@ -291,41 +157,70 @@
         [[${cart.seat.train.arrPlaceName}]];
 
     var oPay = Naver.Pay.create({
+
         mode: "development",
-        clientId: "HN3GGCMDdTgGUfl0kFCo",
-        chainId: "TEwzdFdrM0Izb2x"
+
+        clientId: [[${clientId}]],
+
+        chainId: [[${chainId}]]
+
     });
 
-    document.getElementById("paymentForm").addEventListener("submit", async function (e) {
-        e.preventDefault();
 
-        const method = document.querySelector('input[name="paymentMethod"]:checked').value;
+    document.getElementById("paymentForm")
+        .addEventListener("submit", async function(e){
 
-        if (method !== "naverpay") {
-            alert("현재는 네이버페이만 지원합니다.");
-            return;
-        }
+            e.preventDefault();
 
-        // ✅ 1. 결제 준비 (서버에서 주문 생성)
-        const response = await fetch("/pay/naver/ready", {
-            method: "POST",
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({cartId: cartId})
+            const selectedMethod =
+                document.querySelector('input[name="paymentMethod"]:checked').value;
+
+            if (selectedMethod === "kakaopay") {
+
+                alert("현재 네이버페이만 지원합니다.");
+
+                return;
+            }
+
+            const response = await fetch("/pay/naver/ready", {
+
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+                    cartId: cartId
+                })
+
+            });
+
+            const orderData = await response.json();
+
+            oPay.open({
+
+                merchantPayKey: orderData.merchantPayKey,
+
+                productName: productName,
+
+                productCount: "1",
+
+                totalPayAmount: orderData.amount,
+
+                taxScopeAmount: orderData.amount,
+
+                taxExScopeAmount: "0",
+
+                returnUrl:
+                    "http://localhost:8080/pay/naver/return?merchantPayKey="
+                    + orderData.merchantPayKey
+
+            });
+
         });
 
-        const orderData = await response.json();
-        console.log(orderData.merchantPayKey);
-        // ✅ 2. 네이버페이 결제창 오픈
-        oPay.open({
-            merchantPayKey: orderData.merchantPayKey,
-            productName: productName,
-            productCount: "1",
-            totalPayAmount: orderData.amount,
-            taxScopeAmount: orderData.amount,
-            taxExScopeAmount: "0",
-            returnUrl: "http://localhost:8080/pay/naver/return?merchantPayKey=" + orderData.merchantPayKey
-        });
-    });
 </script>
+
 </body>
 </html>

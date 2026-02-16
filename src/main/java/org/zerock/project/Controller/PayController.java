@@ -81,7 +81,7 @@ public class PayController {
                     .retrieve()
                     .onStatus(HttpStatusCode::isError, response -> response.bodyToMono(String.class)
                             .flatMap(errorBody -> {
-                                System.err.println("네이버 에러 상세: " + errorBody); // 여기서 진짜 이유가 출력됨
+                                System.err.println("네이버 에러 상세: " + errorBody);
                                 return Mono.error(new RuntimeException("API 요청 실패"));
                             }))
                     .bodyToMono(String.class)
@@ -89,7 +89,6 @@ public class PayController {
 
             if (approvalResponse != null && approvalResponse.toLowerCase().contains("success")) {
                 purchaseFacadeService.purchase(merchantPayKey);
-                // 성공 처리 (DB 업데이트 등)
                 return "redirect:/purchase/success";
             }
         } catch (Exception e) {
